@@ -1,0 +1,2 @@
+# FinChartGen
+Financial charts generation
