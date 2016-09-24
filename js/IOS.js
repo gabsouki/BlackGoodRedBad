@@ -1,4 +1,4 @@
-var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]
+var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 var DefaultRawData = {
     Projects: {
         Values: [5000, 6000, 6000, 2000, 6000],
@@ -22,7 +22,7 @@ function FormatBox(type, id) {
     var ValueStr = String(NewValue);
     var SplitValue = ValueStr.split('.');
     var IntLength = SplitValue[0].length;
-    var Decimals = parseFloat('0.' + SplitValue[1])
+    var Decimals = parseFloat('0.' + SplitValue[1]);
     var Spaces = parseInt(IntLength / 3);
     var NumParts = [];
     for (var i = Spaces + 1; i > 0; i--) {
@@ -47,7 +47,7 @@ function FormatBox(type, id) {
             $('#modal-body').text('Ton shit est trop rentable bro!');
             $('#modal-button').text("J'ai compris!");
             $('#modalwindow').modal('show');
-            return;
+
         } else {
             $('#' + id).val(DispValue + " %");
         }
@@ -65,7 +65,6 @@ function AddLine() {
         $('#ProjectsTable tr:last').after('<tr data-projectid="' + newid + '"><td><span class="label label-default largetext">' + alphabet[newid] + '</span><td><div class="form-group chart-form"><input type="text" class="form-control investment textfield" id="I' + newid + '" onfocusout="FormatBox(\'d\',\'I' + newid + '\')" autocomplete="off"></div></td><td><div class="form-group chart-form"><input type="text" class="form-control return textfield" id="R' + newid + '" onfocusout="FormatBox(\'p\',\'R' + newid + '\')" autocomplete="off"></td></div><td><button class="btn btn-danger" onclick="RemoveLine()" id="remove' + newid + '"><span class="glyphicon glyphicon-trash" aria-hidden="true"></button></td></tr>');
         $('#remove' + lastid).hide();
     }
-    ;
 }
 function RemoveLine() {
     var lastid = parseInt($('#ProjectsTable tr:last').data("projectid"));
@@ -76,8 +75,8 @@ function RemoveLine() {
 function DataForm() {
     var ProjectValue = document.getElementsByClassName("investment");
     var ProjectReturn = document.getElementsByClassName("return");
-    var ProjectValues = []
-    var ProjectReturns = []
+    var ProjectValues = [];
+    var ProjectReturns = [];
     for (i = 0; i < ProjectValue.length; i++) {
         ProjectValues[i] = parseFloat(ProjectValue[i].value.replace(/\s/g, '')) / 1000;
         ProjectReturns[i] = parseFloat(ProjectReturn[i].value);
@@ -91,13 +90,13 @@ function DataForm() {
         },
         vCompany: CompanyMaxInvestment,
         rCompany: CompanyCCArray
-    }
+    };
     return NewData
 }
 function MakeDataArray(dataArray) {
-    var projectdata = []
-    var nbProjects = dataArray["Projects"]["Values"].length
-    var cost = 0
+    var projectdata = [];
+    var nbProjects = dataArray["Projects"]["Values"].length;
+    var cost = 0;
     for (var i = 0; i <= nbProjects - 1; i++) {
         projectdata.push({
             "datagroup": "Project" + i,
@@ -106,7 +105,7 @@ function MakeDataArray(dataArray) {
             "type": "project",
             "label": alphabet[i]
         });
-        cost = cost + dataArray["Projects"]["Values"][i]
+        cost = cost + dataArray["Projects"]["Values"][i];
         projectdata.push({
             "datagroup": "Project" + i,
             "financing": cost,
@@ -166,7 +165,7 @@ function MakeDataArray(dataArray) {
         xMaxValue: cost + 10,
         yMaxValue: Math.max.apply(Math, PercentValues) + 1,
         yMinValue: Math.min.apply(Math, PercentValues) - 1
-    }
+    };
     DataArrayConcat = {
         ProjectData: projectdata,
         ScaleValues: ScaleValues
@@ -174,41 +173,43 @@ function MakeDataArray(dataArray) {
     return DataArrayConcat
 }
 function MakeGraph(data) {
-    var dataGroup = d3.nest().key(function(d) {
+    var viswidth = document.getElementById("visualisationspace").offsetWidth;
+    var visheight = 500;
+    var dataGroup = d3.nest().key(function (d) {
         return d.datagroup;
     }).entries(data["ProjectData"]);
     var vis = d3.select("#visualisation")
-      , WIDTH = document.getElementById("visualisationspace").offsetWidth
-      , HEIGHT = 500
-      , MARGINS = {
+        , WIDTH = viswidth
+        , HEIGHT = visheight
+        , MARGINS = {
         top: 50,
         right: 20,
         bottom: 50,
         left: 50
     }
-      , xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, data["ScaleValues"]["xMaxValue"]])
-      , yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([data["ScaleValues"]["yMinValue"], data["ScaleValues"]["yMaxValue"]])
-      , xAxis = d3.svg.axis().scale(xScale)
-      , yAxis = d3.svg.axis().scale(yScale).orient("left");
+        , xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, data["ScaleValues"]["xMaxValue"]])
+        , yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([data["ScaleValues"]["yMinValue"], data["ScaleValues"]["yMaxValue"]])
+        , xAxis = d3.svg.axis().scale(xScale)
+        , yAxis = d3.svg.axis().scale(yScale).orient("left");
     vis.append("svg:g").attr("class", "x axis").attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")").call(xAxis);
     vis.append("svg:g").attr("class", "y axis").attr("transform", "translate(" + (MARGINS.left) + ",0)").call(yAxis);
-    var lineGen = d3.svg.line().x(function(d) {
+    var lineGen = d3.svg.line().x(function (d) {
         return xScale(d.financing);
-    }).y(function(d) {
+    }).y(function (d) {
         return yScale(d.kcost);
     }).interpolate("basis");
-    dataGroup.forEach(function(d, i) {
+    dataGroup.forEach(function (d, i) {
         if (d.values["0"]["type"] === "project" || d.values["0"]["type"] === "wacc") {
             if (d.values["0"]["type"] === "wacc") {
                 vis.append('svg:path').attr('d', lineGen(d.values)).attr('stroke', '#ff0039').attr('stroke-width', 2).attr('fill', 'none');
             } else {
                 vis.append('svg:path').attr('d', lineGen(d.values)).attr('stroke', '#2780e3').attr('stroke-width', 2).attr('fill', 'none');
             }
-            ;var firstposition = parseInt(lineGen(d.values).split(",")["0"].substring(1))
-            var position = lineGen(d.values).split(",")["1"].split("L")
-            position.forEach(function() {
-                var vertical = parseInt(position["0"])
-                var horizontal = parseInt(position["1"])
+            var firstposition = parseInt(lineGen(d.values).split(",")["0"].substring(1));
+            var position = lineGen(d.values).split(",")["1"].split("L");
+            position.forEach(function () {
+                var vertical = parseInt(position["0"]);
+                var horizontal = parseInt(position["1"]);
                 vis.append('text').attr("x", ((horizontal + firstposition) / 2)).attr("y", vertical - 5).text(d.values["0"]["label"]);
             });
         } else if (d.values["0"]["type"] === "interp") {
@@ -216,6 +217,8 @@ function MakeGraph(data) {
         } else if (d.values["0"]["type"] === "interw") {
             vis.append('svg:path').attr('d', lineGen(d.values)).attr('stroke', '#ff0039').style("stroke-dasharray", ("7, 7")).attr('stroke-width', 2).attr('fill', 'none');
         }
+        vis.append('text').attr('x', viswidth / 2).attr('y', visheight - 5).text('Coût (Milliers $)');
+        vis.append('text').attr("transform", "rotate(-90)").attr('x', -visheight / 2).attr('y', 15).style("text-anchor", "middle").text('Rendement espéré (%)');
     });
 }
 function CheckForm() {
@@ -224,7 +227,6 @@ function CheckForm() {
         var id = document.getElementsByClassName('textfield')[i].id;
         $('#' + id).parent('div').removeClass('has-warning has-feedback');
         $('#' + id).parent('div').find('span[class="glyphicon glyphicon-warning-sign form-control-feedback"]').remove();
-        ;
     }
     for (var i = document.getElementsByClassName('textfield').length - 1; i >= 0; i--) {
         if (document.getElementsByClassName('textfield')[i].value.length === 0) {
@@ -249,6 +251,13 @@ function UpdateGraph() {
         $('#modalwindow').modal('show');
     }
 }
-function SaveGraph() { 
-
+function SaveGraph() {
+    if (CheckForm() === true) {
+        saveSvgAsPng(document.getElementById("visualisation"), "IOSChart.png");
+    } else {
+        $('#modal-label').text('Données');
+        $('#modal-body').text('Check ton shit bro! Il manque des infos!');
+        $('#modal-button').text("J'ai compris!");
+        $('#modalwindow').modal('show');
+    }
 }
