@@ -62,7 +62,7 @@ function AddLine() {
         $('#modal-button').text("J'ai compris!");
         $('#modalwindow').modal('show');
     } else {
-        $('#ProjectsTable tr:last').after('<tr data-projectid="' + newid + '"><td><span class="label label-default largetext">' + alphabet[newid] + '</span><td><div class="form-group chart-form"><input type="text" class="form-control investment textfield" id="I' + newid + '" onfocusout="FormatBox(\'d\',\'I' + newid + '\')" autocomplete="off"></div></td><td><div class="form-group chart-form"><input type="text" class="form-control return textfield" id="R' + newid + '" onfocusout="FormatBox(\'p\',\'R' + newid + '\')" autocomplete="off"></td></div><td><button class="btn btn-danger" onclick="RemoveLine()" id="remove' + newid + '"><span class="glyphicon glyphicon-trash" aria-hidden="true"></button></td></tr>');
+        $('#ProjectsTable tr:last').after('<tr data-projectid="' + newid + '"><td><span class="label label-default largetext">' + alphabet[newid] + '</span><td><div class="form-group chart-form"><input type="text" class="form-control investment textfield" id="I' + newid + '" onblur="FormatBox(\'d\',\'I' + newid + '\')" autocomplete="off"></div></td><td><div class="form-group chart-form"><input type="text" class="form-control return textfield" id="R' + newid + '" onblur="FormatBox(\'p\',\'R' + newid + '\')" autocomplete="off"></td></div><td><button class="btn btn-danger" onclick="RemoveLine()" id="remove' + newid + '"><span class="glyphicon glyphicon-trash" aria-hidden="true"></button></td></tr>');
         $('#remove' + lastid).hide();
     }
 }
