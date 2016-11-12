@@ -189,8 +189,8 @@ function MakeGraph(data) {
     }
         , xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, data["ScaleValues"]["xMaxValue"]])
         , yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([data["ScaleValues"]["yMinValue"], data["ScaleValues"]["yMaxValue"]])
-        , xAxis = d3.svg.axis().scale(xScale)
-        , yAxis = d3.svg.axis().scale(yScale).orient("left");
+        , xAxis = d3.svg.axis().scale(xScale).tickSize(2).tickFormat(d3.format("d"))
+        , yAxis = d3.svg.axis().scale(yScale).tickSize(2).orient("left");
     vis.append("svg:g").attr("class", "x axis").attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")").call(xAxis);
     vis.append("svg:g").attr("class", "y axis").attr("transform", "translate(" + (MARGINS.left) + ",0)").call(yAxis);
     var lineGen = d3.svg.line().x(function (d) {
@@ -253,6 +253,7 @@ function UpdateGraph() {
 }
 function SaveGraph() {
     if (CheckForm() === true) {
+
         saveSvgAsPng(document.getElementById("visualisation"), "IOSChart.png");
     } else {
         $('#modal-label').text('Données');
