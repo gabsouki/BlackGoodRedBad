@@ -44,7 +44,7 @@ function FormatBox(type, id) {
         if (parseInt(CurrentValue) >= 100) {
             $('#' + id).val('');
             $('#modal-label').text('Coût en capital');
-            $('#modal-body').text('Ton shit est trop rentable bro!');
+            $('#modal-body').text('C\'est trop rentable bro!');
             $('#modal-button').text("J'ai compris!");
             $('#modalwindow').modal('show');
 
@@ -217,9 +217,9 @@ function MakeGraph(data) {
         } else if (d.values["0"]["type"] === "interw") {
             vis.append('svg:path').attr('d', lineGen(d.values)).attr('stroke', '#ff0039').style("stroke-dasharray", ("7, 7")).attr('stroke-width', 2).attr('fill', 'none');
         }
-        vis.append('text').attr('x', viswidth / 2).attr('y', visheight - 5).text('Coût (Milliers $)');
-        vis.append('text').attr("transform", "rotate(-90)").attr('x', -visheight / 2).attr('y', 15).style("text-anchor", "middle").text('Rendement espéré (%)');
-    });
+     });
+    vis.append('text').attr('x', viswidth / 2).attr('y', visheight - 5).style("font-weight", "bold").text('Coût (Milliers $)');
+    vis.append('text').attr("transform", "rotate(-90)").attr('x', -visheight / 2).attr('y', 15).style("text-anchor", "middle").style("font-weight", "bold").text('Rendement espéré (%)');
 }
 function CheckForm() {
     var CheckedForm = true;
@@ -246,7 +246,7 @@ function UpdateGraph() {
         MakeGraph(NewData);
     } else {
         $('#modal-label').text('Données');
-        $('#modal-body').text('Check ton shit bro! Il manque des infos!');
+        $('#modal-body').text('Check tes affaires! Il manque des infos!');
         $('#modal-button').text("J'ai compris!");
         $('#modalwindow').modal('show');
     }
@@ -256,7 +256,7 @@ function SaveGraph() {
         saveSvgAsPng(document.getElementById("visualisation"), "IOSChart.png");
     } else {
         $('#modal-label').text('Données');
-        $('#modal-body').text('Check ton shit bro! Il manque des infos!');
+        $('#modal-body').text('Check tes affaires! Il manque des infos!');
         $('#modal-button').text("J'ai compris!");
         $('#modalwindow').modal('show');
     }
