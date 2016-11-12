@@ -5,7 +5,9 @@ var DefaultRawData = {
         Returns: [18, 14, 13, 10, 9]
     },
     vCompany: 12000,
-    rCompany: [10, 13.25]
+    rCompany: [10, 13.25],
+    Space: "#visualisation",
+    CallFrom: 'orig'
 };
 var DefaultData = MakeDataArray(DefaultRawData);
 function FormatBox(type, id) {
@@ -72,7 +74,14 @@ function RemoveLine() {
     $('#ProjectsTable tr:last').remove();
     $('#remove' + newid).show();
 }
-function DataForm() {
+function DataForm(destination) {
+    if(destination === "display"){
+        var VisID = "#visualisation";
+        var Origin = "orig"
+    }else{
+        var VisID = "#savecanvas"
+        var Origin = "save"
+    }
     var ProjectValue = document.getElementsByClassName("investment");
     var ProjectReturn = document.getElementsByClassName("return");
     var ProjectValues = [];
@@ -89,7 +98,9 @@ function DataForm() {
             Returns: ProjectReturns
         },
         vCompany: CompanyMaxInvestment,
-        rCompany: CompanyCCArray
+        rCompany: CompanyCCArray,
+        CallFrom : Origin,
+        Space: VisID,
     };
     return NewData
 }
@@ -168,17 +179,23 @@ function MakeDataArray(dataArray) {
     };
     DataArrayConcat = {
         ProjectData: projectdata,
-        ScaleValues: ScaleValues
+        ScaleValues: ScaleValues,
+        Space: dataArray["Space"],
+        CallFrom: dataArray["CallFrom"]
     };
     return DataArrayConcat
 }
 function MakeGraph(data) {
-    var viswidth = document.getElementById("visualisationspace").offsetWidth;
+    if(data['CallFrom']==='orig'){
+        var viswidth = document.getElementById("visualisationspace").offsetWidth;
+    } else {
+        var viswidth = 1000;
+    }
     var visheight = 500;
     var dataGroup = d3.nest().key(function (d) {
         return d.datagroup;
     }).entries(data["ProjectData"]);
-    var vis = d3.select("#visualisation")
+    var vis = d3.select(data["Space"])
         , WIDTH = viswidth
         , HEIGHT = visheight
         , MARGINS = {
@@ -240,25 +257,28 @@ function CheckForm() {
 }
 function UpdateGraph() {
     if (CheckForm() === true) {
-        var NewData = MakeDataArray(DataForm());
+        var NewData = MakeDataArray(DataForm('display'));
         d3.select("svg").remove();
         $('#visualisationspace').append('<svg id="visualisation" width="100%" height="500"></svg>');
         MakeGraph(NewData);
+        $('#DownloadButton').prop("disabled", false);
+        var Status = true
     } else {
         $('#modal-label').text('Données');
         $('#modal-body').text('Check tes affaires! Il manque des infos!');
         $('#modal-button').text("J'ai compris!");
         $('#modalwindow').modal('show');
+        var Status = false
     }
+    return Status;
 }
 function SaveGraph() {
-    if (CheckForm() === true) {
-
-        saveSvgAsPng(document.getElementById("visualisation"), "IOSChart.png");
-    } else {
-        $('#modal-label').text('Données');
-        $('#modal-body').text('Check tes affaires! Il manque des infos!');
-        $('#modal-button').text("J'ai compris!");
-        $('#modalwindow').modal('show');
-    }
+    if(UpdateGraph()===true){
+        $("#savecanvas").empty();
+        $("#savecanvasspace").css('display','block');
+        var SaveData = MakeDataArray(DataForm('save'));
+        MakeGraph(SaveData);
+        saveSvgAsPng(document.getElementById("savecanvas"), "IOSChart.png");
+        $("#savecanvasspace").css('display','none');
+    };
 }

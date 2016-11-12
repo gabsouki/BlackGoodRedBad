@@ -10,8 +10,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/IOS.js"></script>
     <script src="js/saveSvgAsPng.js"></script>
-    <script src="js/dictionary.js"></script>
-
+    <!--<script src="js/dictionary.js"></script>-->
     <style>
         .axis path {
             fill: none;
@@ -160,12 +159,11 @@
             <button onclick="UpdateGraph()" class="btn btn-primary generate-button">Générer le graphique</button>
         </div>
     </div>
-
     <div class="panel panel-default" id="visualisationspace">
         <div class="panel-heading"><b>Graphique</b></div>
 
-        <div class="text-center">
-            <button onclick="SaveGraph()" class="btn btn-primary generate-button">Télécharger le graphique</button>
+        <div class="text-center" style="margin-bottom: -50px">
+            <button id="DownloadButton" onclick="SaveGraph()" class="btn btn-primary generate-button" disabled>Télécharger le graphique</button>
         </div>
 
         <svg id="visualisation" width="100%" height="500"></svg>
@@ -175,6 +173,8 @@
         </script>
     </div>
 </div>
-
+<div id="savecanvasspace" style="display:none; width: 1050px; height: 450px;">
+    <svg id="savecanvas" width="100%" height="500"></svg>
+</div>
 </body>
 </html>
