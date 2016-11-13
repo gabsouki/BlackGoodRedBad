@@ -5,7 +5,7 @@ var DefaultRawData = {
         Returns: [18, 14, 13, 10, 9]
     },
     vCompany: 12000,
-    rCompany: [10, 13.25],
+    rCompany: [10, 13.65],
     Space: "#visualisation",
     CallFrom: 'orig'
 };
