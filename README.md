@@ -1,4 +1,4 @@
-# Black Means Good
+# Black Good Red Bad
 ## Finance Calculators and Chart Generators
 
 This is a project I started during a Finance class (FIN200) at my university (UQAR)
@@ -11,6 +11,6 @@ I will eventually add more finance related calculators and charting tools.
 
 The first chart generator I build is available here:
 
-www.faitque.tk/BlackMeansGood
+www.faitque.tk/bgrb
 
 This tool gives you a nice IOS overlapping with the company WACC and MCC
