@@ -11,6 +11,6 @@ I will eventually add more finance related calculators and charting tools.
 
 The first chart generator I build is available here:
 
-www.faitque.tk/bgrb
+www.faque.tk/bgrb
 
 This tool gives you a nice IOS overlapping with the company WACC and MCC
